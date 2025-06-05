@@ -1,0 +1,77 @@
+﻿<Window x:Class="AnimalCare.CareEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Care Editor" Height="500" Width="600"
+        WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Owner -->
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Owner:" Width="80" VerticalAlignment="Center"/>
+            <TextBox Width="200" Text="{Binding OwnerSurname, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+
+        <!-- Date -->
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,10">
+            <TextBlock Text="Date:" Width="80" VerticalAlignment="Center"/>
+            <DatePicker SelectedDate="{Binding JobDate}" Width="200"/>
+        </StackPanel>
+
+        <!-- Add Job -->
+        <GroupBox Header="Add Job" Grid.Row="2" Margin="0,0,0,10">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                    <TextBlock Text="Species:" Width="80" VerticalAlignment="Center"/>
+                    <ComboBox Width="150"
+                              ItemsSource="{Binding SpeciesList}"
+                              SelectedItem="{Binding Species}"
+                              IsEditable="True"
+                              IsTextSearchEnabled="True"
+                              StaysOpenOnEdit="True"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                    <TextBlock Text="Name:" Width="80" VerticalAlignment="Center"/>
+                    <TextBox Width="150" Text="{Binding AnimalName, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                    <TextBlock Text="Birth Year:" Width="80" VerticalAlignment="Center"/>
+                    <TextBox Width="150" Text="{Binding Year, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                    <RadioButton Content="Is Male" GroupName="Gender" IsChecked="{Binding IsMale, Converter={StaticResource InverseBooleanConverter}}"/>
+                    <RadioButton Content="Is Female" GroupName="Gender" IsChecked="{Binding IsMale}" Margin="10,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                    <TextBlock Text="Job Type:" Width="80" VerticalAlignment="Center"/>
+                    <ComboBox Width="150"
+                              ItemsSource="{Binding JobTypes}"
+                              SelectedItem="{Binding SelectedJobType}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                    <TextBlock Text="Cost (UAH):" Width="80" VerticalAlignment="Center"/>
+                    <TextBox Width="150" Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+                <Button Content="Add Job" Margin="0,10,0,0" Width="100" HorizontalAlignment="Left" Click="AddJobButton_Click"/>
+            </StackPanel>
+        </GroupBox>
+
+        <ListBox x:Name="JobsListBox"
+                 Grid.Row="3"
+                 ItemsSource="{Binding CareJobs}"
+                 MouseDoubleClick="JobsListBox_MouseDoubleClick"/>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Save and Close" Width="120" Margin="0,0,10,0" Click="SaveAndCloseButton_Click"/>
+            <Button Content="Cancel and Close" Width="120" Click="CancelAndCloseButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
